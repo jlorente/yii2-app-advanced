@@ -9,4 +9,6 @@ return [
     , 'Created By' => 'Creador'
     , 'Updated At' => 'Fecha de modificación'
     , 'Updated By' => 'Modificador'
+    , 'Deleted At' => 'Fecha de eliminación'
+    , 'Deleted By' => 'Eliminador'
 ];

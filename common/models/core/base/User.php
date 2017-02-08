@@ -34,7 +34,7 @@ class User extends \custom\db\ActiveRecord {
     public function rules() {
         return [
             [['slug'], 'required'],
-            [['created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at', 'deleted_by'], 'integer'],
+            [['account_id', 'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at', 'deleted_by'], 'integer'],
             [['name', 'last_name', 'phone', 'mobile', 'email'], 'string', 'max' => 255],
             [['email'], 'unique']
         ];
@@ -44,19 +44,16 @@ class User extends \custom\db\ActiveRecord {
      * @inheritdoc
      */
     public function attributeLabels() {
-        return [
+        return array_merge(parent::attributeLabels(), [
             'id' => Yii::t('user', 'ID'),
+            'account_id' => Yii::t('user', 'Account Id'),
             'slug' => Yii::t('user', 'Slug'),
             'email' => Yii::t('user', 'Email'),
             'name' => Yii::t('user', 'Name'),
             'last_name' => Yii::t('user', 'Last Name'),
             'phone' => Yii::t('user', 'Phone'),
             'mobile' => Yii::t('user', 'Mobile'),
-            'created_at' => Yii::t('user', 'Created At'),
-            'created_by' => Yii::t('user', 'Created By'),
-            'updated_at' => Yii::t('user', 'Updated At'),
-            'updated_by' => Yii::t('user', 'Updated By'),
-        ];
+        ]);
     }
 
 }
