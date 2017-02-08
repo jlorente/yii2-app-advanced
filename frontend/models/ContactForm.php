@@ -1,42 +1,47 @@
 <?php
 
+/**
+ * @author	José Lorente <jose.lorente.martin@gmail.com>
+ * @version	1.0
+ */
+
 namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
+use yii\log\Logger;
+use jlorente\captcha\CaptchaValidator;
 
 /**
  * ContactForm is the model behind the contact form.
+ * 
+ * @author José Lorente <jose.lorente.martin@gmail.com>
  */
-class ContactForm extends Model
-{
+class ContactForm extends Model {
+
     public $name;
     public $email;
-    public $subject;
+    public $phone;
     public $body;
     public $verifyCode;
-
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            // name, email, subject and body are required
-            [['name', 'email', 'subject', 'body'], 'required'],
-            // email has to be a valid email address
-            ['email', 'email'],
-            // verifyCode needs to be entered correctly
-            ['verifyCode', 'captcha'],
+            [['name', 'email', 'body'], 'required']
+            , [['name', 'email', 'phone'], 'string', 'max' => 100]
+            , ['body', 'string', 'max' => 1000]
+            , ['email', 'email']
+            , ['verifyCode', CaptchaValidator::className()]
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'verifyCode' => 'Verification Code',
         ];
@@ -45,16 +50,24 @@ class ContactForm extends Model
     /**
      * Sends an email to the specified email address using the information collected by this model.
      *
-     * @param string $email the target email address
-     * @return bool whether the email was sent
+     * @param  string  $email the target email address
+     * @return boolean whether the email was sent
      */
-    public function sendEmail($email)
-    {
-        return Yii::$app->mailer->compose()
-            ->setTo($email)
-            ->setFrom([$this->email => $this->name])
-            ->setSubject($this->subject)
-            ->setTextBody($this->body)
-            ->send();
+    public function sendEmail($email) {
+        try {
+            return Yii::$app->mailer->compose('contactForm', ['model' => $this])
+                            ->setTo($email)
+                            ->setFrom([Yii::$app->params['noreplyEmail'] => Yii::t('email', 'No Reply {appName}', [
+                                    'appName' => Yii::$app->name
+                        ])])
+                            ->setSubject(Yii::t('contact', '{appName} contact form', [
+                                        'appName' => Yii::$app->name
+                            ]))
+                            ->send();
+        } catch (\Exception $ex) {
+            Yii::getLogger()->log($ex->getMessage(), Logger::LEVEL_ERROR, 'contactMail');
+            return false;
+        }
     }
+
 }

@@ -1,26 +1,30 @@
 <?php
+
+/**
+ * @author	José Lorente <jose.lorente.martin@gmail.com>
+ * @version	1.0
+ */
+
 namespace common\models;
 
 use Yii;
 use yii\base\Model;
+use common\models\core\Account;
 
 /**
  * Login form
  */
-class LoginForm extends Model
-{
+class LoginForm extends Model {
+
     public $username;
     public $password;
     public $rememberMe = true;
-
-    private $_user;
-
+    protected $_user = false;
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             // username and password are both required
             [['username', 'password'], 'required'],
@@ -32,16 +36,26 @@ class LoginForm extends Model
     }
 
     /**
+     * 
+     */
+    public function attributeLabels() {
+        return [
+            'username' => Yii::t('user', 'Username'),
+            'password' => Yii::t('user', 'Password'),
+            'rememberMe' => Yii::t('user', 'Remember Me')
+        ];
+    }
+    
+    /**
      * Validates the password.
      * This method serves as the inline validation for password.
      *
      * @param string $attribute the attribute currently being validated
      * @param array $params the additional name-value pairs given in the rule
      */
-    public function validatePassword($attribute, $params)
-    {
+    public function validatePassword($attribute, $params) {
         if (!$this->hasErrors()) {
-            $user = $this->getUser();
+            $user = $this->getAccount();
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
@@ -51,12 +65,11 @@ class LoginForm extends Model
     /**
      * Logs in a user using the provided username and password.
      *
-     * @return bool whether the user is logged in successfully
+     * @return boolean whether the user is logged in successfully
      */
-    public function login()
-    {
+    public function login() {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            return Yii::$app->user->login($this->getAccount(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         } else {
             return false;
         }
@@ -65,14 +78,14 @@ class LoginForm extends Model
     /**
      * Finds user by [[username]]
      *
-     * @return User|null
+     * @return Account|null
      */
-    protected function getUser()
-    {
-        if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
+    public function getAccount() {
+        if ($this->_user === false) {
+            $this->_user = Account::findByUsername($this->username);
         }
 
         return $this->_user;
     }
+
 }

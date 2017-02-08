@@ -1,36 +1,36 @@
 <?php
+
 namespace frontend\models;
 
+use Yii;
 use yii\base\Model;
-use common\models\User;
+use common\models\core\Account,
+    common\models\core\User;
+use common\exceptions\SaveException;
 
 /**
  * Signup form
  */
-class SignupForm extends Model
-{
+class SignupForm extends Model {
+
     public $username;
     public $email;
     public $password;
 
-
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => Account::className(), 'message' => Yii::t('account', 'This username has already been taken.')],
             ['username', 'string', 'min' => 2, 'max' => 255],
-
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
-
+            ['email', 'unique', 'targetClass' => User::className(), 'message' => Yii::t('user', 'This email address has already been taken.')],
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
         ];
@@ -41,18 +41,35 @@ class SignupForm extends Model
      *
      * @return User|null the saved model or null if saving fails
      */
-    public function signup()
-    {
+    public function signup() {
         if (!$this->validate()) {
             return null;
         }
-        
-        $user = new User();
-        $user->username = $this->username;
-        $user->email = $this->email;
-        $user->setPassword($this->password);
-        $user->generateAuthKey();
-        
-        return $user->save() ? $user : null;
+
+        $trans = Yii::$app->db->beginTransaction();
+        try {
+            $account = new Account();
+            $account->username = $this->username;
+            $account->setPassword($this->password);
+            $account->generateAuthKey();
+            if ($account->save() === false) {
+                throw new SaveException($account);
+            }
+
+            $user = new User();
+            $user->email = $this->email;
+            $user->slug = $account->username;
+            $user->accountId = $account->id;
+            if ($user->save() === false) {
+                throw new SaveException($user);
+            }
+
+            $trans->commit();
+            return $user;
+        } catch (\Exception $e) {
+            $trans->rollBack();
+            throw $e;
+        }
     }
+
 }

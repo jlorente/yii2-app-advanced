@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The manifest of files that are local to specific environment.
  * This file returns a list of environments that the application
@@ -36,10 +37,28 @@ return [
             'backend/web/assets',
             'frontend/runtime',
             'frontend/web/assets',
+            'frontend/web/uploads',
         ],
         'setExecutable' => [
             'yii',
             'yii_test',
+        ],
+        'setCookieValidationKey' => [
+            'backend/config/main-local.php',
+            'frontend/config/main-local.php',
+        ],
+    ],
+    'PRE-Production' => [
+        'path' => 'pre',
+        'setWritable' => [
+            'backend/runtime',
+            'backend/web/assets',
+            'frontend/runtime',
+            'frontend/web/assets',
+            'frontend/web/uploads',
+        ],
+        'setExecutable' => [
+            'yii',
         ],
         'setCookieValidationKey' => [
             'backend/config/main-local.php',
@@ -53,6 +72,7 @@ return [
             'backend/web/assets',
             'frontend/runtime',
             'frontend/web/assets',
+            'frontend/web/uploads',
         ],
         'setExecutable' => [
             'yii',

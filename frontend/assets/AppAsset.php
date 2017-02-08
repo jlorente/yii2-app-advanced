@@ -1,23 +1,38 @@
 <?php
 
+/**
+ * @author	José Lorente <jose.lorente.martin@gmail.com>
+ * @version	1.0
+ */
+
 namespace frontend\assets;
 
 use yii\web\AssetBundle;
 
 /**
- * Main frontend application asset bundle.
+ * Common asset of the main application.
+ * 
+ * @author José Lorente <jose.lorente.martin@gmail.com>
  */
-class AppAsset extends AssetBundle
-{
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
+class AppAsset extends AssetBundle {
+
+    /**
+     * @inheritdoc
+     */
+    public $sourcePath = '@frontend/assets/app';
+
+    /**
+     * @inheritdoc
+     */
     public $css = [
-        'css/site.css',
+        'app.css',
     ];
-    public $js = [
-    ];
+
+    /**
+     * @inheritdoc
+     */
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'common\assets\AppAsset'
     ];
+
 }

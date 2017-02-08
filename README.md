@@ -50,6 +50,7 @@ frontend
     views/               contains view files for the Web application
     web/                 contains the entry script and Web resources
     widgets/             contains frontend widgets
+custom/                  designed to override yii classes
 vendor/                  contains dependent 3rd-party packages
 environments/            contains environment-based overrides
 ```

@@ -1,11 +1,17 @@
 <?php
 
-/* @var $this yii\web\View */
+/**
+ * @author	José Lorente <jose.lorente.martin@gmail.com>
+ * @version	1.0
+ */
+use yii\web\View;
+use jlorente\helpers\Html;
+
+/* @var $this View */
 /* @var $name string */
 /* @var $message string */
 /* @var $exception Exception */
 
-use yii\helpers\Html;
 
 $this->title = $name;
 ?>
@@ -17,11 +23,6 @@ $this->title = $name;
         <?= nl2br(Html::encode($message)) ?>
     </div>
 
-    <p>
-        The above error occurred while the Web server was processing your request.
-    </p>
-    <p>
-        Please contact us if you think this is a server error. Thank you.
-    </p>
-
+    <?= $code === 404 ? Html::tag('p', Yii::t('error', 'The requested URL was not found on this server. Make sure that the Web site address displayed in the address bar of your browser is spelled and formatted correctly.')) : '' ?>
+    <?= Html::a(Yii::t('error', 'Return Home') . Html::font('fa fa-home'), ['/'], ['class' => 'btn btn-default btn-animated btn-lg']) ?>
 </div>

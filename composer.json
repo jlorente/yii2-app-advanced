@@ -14,16 +14,24 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5.0",
         "yiisoft/yii2": "~2.0.6",
         "yiisoft/yii2-bootstrap": "~2.0.0",
-        "yiisoft/yii2-swiftmailer": "~2.0.0"
+        "yiisoft/yii2-swiftmailer": "~2.0.0",
+        "yiidoc/yii2-redactor": "*",
+        "jlorente/yii2-roles": "dev-master",
+        "jlorente/yii2-locations": "dev-master",
+        "jlorente/yii2-locations-spain": "dev-master",
+        "jlorente/yii2-behaviors": "dev-master",
+        "jlorente/yii2-helpers": "dev-master",
+        "jlorente/yii2-enhanced-captcha": "~1.0",
+        "jlorente/yii2-config-variables": "~1.0",
+        "cinghie/yii2-cookie-consent": "~1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
         "yiisoft/yii2-gii": "~2.0.0",
         "yiisoft/yii2-faker": "~2.0.0",
-
         "codeception/base": "^2.2.3",
         "codeception/verify": "~0.3.1"
     },
@@ -38,5 +46,11 @@
     },
     "scripts": {
         "post-install-cmd": "php init --env=Development --overwrite=n"
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/jlorente/yii2-google-maps-library.git"
+        }
+    ]
 }
