@@ -9,7 +9,7 @@ namespace common\models;
 
 use Yii;
 use yii\base\Model;
-use common\models\core\Account;
+use common\models\core\ar\Account;
 
 /**
  * Login form

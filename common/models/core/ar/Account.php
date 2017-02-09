@@ -5,7 +5,7 @@
  * @version	1.0
  */
 
-namespace common\models\core;
+namespace common\models\core\ar;
 
 use Yii;
 use yii\base\NotSupportedException;
@@ -29,7 +29,6 @@ class Account extends base\Account implements IdentityInterface, Roleable {
     const STATUS_ACTIVE = 10;
     //Roles
     const ROLE_USER = 'User';
-    const ROLE_MODERATOR = 'Moderator';
     const ROLE_ADMIN = 'Admin';
 
     /**
@@ -180,21 +179,6 @@ class Account extends base\Account implements IdentityInterface, Roleable {
 
     /**
      * 
-     * @return OptionQuery
-     */
-    public function getSelectedOptions($sessionId = null) {
-        $callable = null;
-        if ($sessionId !== null) {
-            $callable = function ($query) use ($sessionId) {
-                $query->andWhere(['pol_user_selection.session_id' => $sessionId]);
-            };
-        }
-        return $this->hasMany(Option::className(), ['id' => 'option_id'])
-                        ->viaTable('pol_user_selection', ['account_id' => 'id'], $callable);
-    }
-
-    /**
-     * 
      * @return UserQuery
      */
     public function getUser() {
@@ -210,7 +194,7 @@ class Account extends base\Account implements IdentityInterface, Roleable {
 
     /**
      * 
-     * @return UserQuery
+     * @return AccountQuery
      */
     public static function find() {
         return Yii::createObject(AccountQuery::className(), [get_called_class()]);
@@ -223,5 +207,26 @@ class Account extends base\Account implements IdentityInterface, Roleable {
  * @author José Lorente <jose.lorente.martin@gmail.com>
  */
 class AccountQuery extends ActiveQuery {
-    
+
+    /**
+     * Adds the active filter to the query object.
+     * 
+     * @return $this the query object itself
+     */
+    public function active() {
+        $this->filterWhere(['status' => Account::STATUS_ACTIVE]);
+        return $this;
+    }
+
+    /**
+     * Adds an email filter by performing a join with the user table.
+     * 
+     * @param string $email
+     * @return $this the query object itself
+     */
+    public function filterByEmail($email) {
+        return $this->innerJoin(User::tableName(), User::tableName() . 'account_id = cor_account.id')
+                        ->andWhere(['email' => $email]);
+    }
+
 }

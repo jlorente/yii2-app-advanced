@@ -11,7 +11,7 @@ use yii\base\Model;
 use yii\base\InvalidParamException;
 use Yii;
 use jlorente\location\exceptions\SaveException;
-use common\models\core\File;
+use common\models\core\ar\File;
 
 /**
  * @author	José Lorente <jose.lorente.martin@gmail.com>

@@ -8,7 +8,7 @@
 namespace common\models;
 
 use yii\base\Model;
-use common\models\core\Account;
+use common\models\core\ar\Account;
 
 /**
  * Represents an application user with its correspondign session id.
@@ -51,10 +51,10 @@ class User extends Model {
     /**
      * Sets the Account model.
      * 
-     * @param Account $user
+     * @param Account $account
      */
-    public function setAccount(Account $user = null) {
-        $this->account = $user;
+    public function setAccount(Account $account = null) {
+        $this->account = $account;
     }
 
     /**

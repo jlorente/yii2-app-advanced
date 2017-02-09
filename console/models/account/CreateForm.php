@@ -9,8 +9,8 @@
 namespace console\models\user;
 
 use yii\base\Model;
-use common\models\core\User,
-    common\models\core\Account;
+use common\models\core\ar\User,
+    common\models\core\ar\Account;
 use Yii;
 use yii\behaviors\SluggableBehavior;
 use common\exceptions\SaveException;

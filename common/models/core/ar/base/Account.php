@@ -5,7 +5,7 @@
  * @version	1.0
  */
 
-namespace common\models\core\base;
+namespace common\models\core\ar\base;
 
 use Yii;
 

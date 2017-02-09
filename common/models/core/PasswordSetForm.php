@@ -9,7 +9,7 @@ namespace common\models\core;
 
 use Yii;
 use yii\base\Model;
-
+use common\models\core\ar\Account;
 /**
  * Model used to change user password.
  * 

@@ -22,6 +22,19 @@ class m130524_201442_init extends StructureMigration {
                 , 'created_by' => Schema::TYPE_INTEGER
                 , 'updated_at' => Schema::TYPE_INTEGER
                 , 'updated_by' => Schema::TYPE_INTEGER
+            ], 'cor_file' => [
+                'id' => Schema::TYPE_PK,
+                'name' => Schema::TYPE_STRING,
+                'path' => Schema::TYPE_STRING . ' NOT NULL',
+                'mime_type' => Schema::TYPE_STRING . ' NOT NULL',
+                'created_at' => Schema::TYPE_INTEGER,
+                'created_by' => Schema::TYPE_INTEGER,
+                'updated_at' => Schema::TYPE_INTEGER,
+                'updated_by' => Schema::TYPE_INTEGER
+            ], 'cor_resource_file' => [
+                'resource_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+                'file_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+                'class' => Schema::TYPE_STRING . ' NOT NULL'
             ], 'usr_user' => [
                 'id' => Schema::TYPE_PK
                 , 'account_id' => Schema::TYPE_INTEGER
@@ -45,6 +58,15 @@ class m130524_201442_init extends StructureMigration {
     /**
      * @inheritdoc
      */
+    public function getPrimaryKeys() {
+        return [
+            ['PK_CorResourceFile_ResourceId_FileId', 'cor_resource_file', ['resource_id', 'file_id']]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getIndexes() {
         return [
             ['UNIQUE_CorAccount_Username', 'cor_account', 'username', true]
@@ -58,6 +80,7 @@ class m130524_201442_init extends StructureMigration {
     public function getForeignKeys() {
         return [
             ['FK_CorAccount_UsrUser_AccountId', 'cor_account', 'id', 'usr_user', 'account_id', 'SET NULL', 'CASCADE']
+            , ['FK_CorFile_CorResourceFile_FileId', 'cor_resource_file', 'file_id', 'cor_file', 'id', 'CASCADE', 'CASCADE'],
         ];
     }
 

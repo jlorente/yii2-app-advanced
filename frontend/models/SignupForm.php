@@ -4,8 +4,8 @@ namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
-use common\models\core\Account,
-    common\models\core\User;
+use common\models\core\ar\Account,
+    common\models\core\ar\User;
 use common\exceptions\SaveException;
 
 /**

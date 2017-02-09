@@ -4,7 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
-use common\models\User;
+use common\models\core\ar\Account;
 
 /**
  * Password reset request form
@@ -23,31 +23,31 @@ class PasswordResetRequestForm extends Model {
             ['email', 'email'],
             ['email', 'exist',
                 'targetClass' => '\common\models\User',
-                'filter' => ['status' => User::STATUS_ACTIVE],
+                'filter' => ['status' => Account::STATUS_ACTIVE],
                 'message' => 'There is no user with this email address.'
             ],
         ];
     }
 
     /**
+     * @todo Filter by User and Account
      * Sends an email with a link, for resetting the password.
      *
      * @return boolean whether the email was send
      */
     public function sendEmail() {
-        /* @var $user User */
-        $user = User::findOne([
-                    'status' => User::STATUS_ACTIVE,
-                    'email' => $this->email,
-        ]);
+        $account = Account::find()
+                ->filterByEmail(['email' => $this->email])
+                ->active()
+                ->one();
 
-        if ($user) {
-            if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
-                $user->generatePasswordResetToken();
+        if ($account) {
+            if (!Account::isPasswordResetTokenValid($account->password_reset_token)) {
+                $account->generatePasswordResetToken();
             }
 
-            if ($user->save()) {
-                return $this->doSendMail($user);
+            if ($account->save()) {
+                return $this->doSendMail($account);
             }
         }
 
@@ -57,12 +57,12 @@ class PasswordResetRequestForm extends Model {
     /**
      * Performs the action of sending the mail to the user.
      * 
-     * @param User $user
+     * @param Account $account
      * @return boolean
      */
-    protected function doSendMail(User $user) {
+    protected function doSendMail(Account $account) {
         try {
-            return Yii::$app->mailer->compose(['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'], ['user' => $user])
+            return Yii::$app->mailer->compose(['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'], ['account' => $account])
                             ->setFrom([Yii::$app->params['noreplyEmail'] => Yii::t('email', 'No Reply {appName}', [
                                     'appName' => Yii::$app->name
                         ])])

@@ -5,7 +5,7 @@
  * @version	1.0
  */
 
-namespace common\models\core;
+namespace common\models\core\ar;
 
 use yii\db\ActiveQuery;
 

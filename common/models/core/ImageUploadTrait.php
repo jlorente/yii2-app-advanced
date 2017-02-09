@@ -5,7 +5,7 @@
  * @version	1.0
  */
 
-namespace common\models;
+namespace common\models\core;
 
 use yii\web\UploadedFile;
 use custom\db\exceptions\SaveException;
