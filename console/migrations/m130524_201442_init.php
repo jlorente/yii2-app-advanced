@@ -35,7 +35,7 @@ class m130524_201442_init extends StructureMigration {
                 'resource_id' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'file_id' => Schema::TYPE_INTEGER . ' NOT NULL',
                 'class' => Schema::TYPE_STRING . ' NOT NULL'
-            ], 'usr_user' => [
+            ], 'cor_user' => [
                 'id' => Schema::TYPE_PK
                 , 'account_id' => Schema::TYPE_INTEGER
                 , 'slug' => Schema::TYPE_STRING . ' CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL'
@@ -70,7 +70,7 @@ class m130524_201442_init extends StructureMigration {
     public function getIndexes() {
         return [
             ['UNIQUE_CorAccount_Username', 'cor_account', 'username', true]
-            , ['UNIQUE_UsrUser_Slug', 'usr_user', 'slug', true]
+            , ['UNIQUE_CorUser_Slug', 'cor_user', 'slug', true]
         ];
     }
 
@@ -79,7 +79,7 @@ class m130524_201442_init extends StructureMigration {
      */
     public function getForeignKeys() {
         return [
-            ['FK_CorAccount_UsrUser_AccountId', 'usr_user', 'account_id', 'cor_account', 'id', 'SET NULL', 'CASCADE']
+            ['FK_CorAccount_CorUser_AccountId', 'cor_user', 'account_id', 'cor_account', 'id', 'SET NULL', 'CASCADE']
             , ['FK_CorFile_CorResourceFile_FileId', 'cor_resource_file', 'file_id', 'cor_file', 'id', 'CASCADE', 'CASCADE'],
         ];
     }
