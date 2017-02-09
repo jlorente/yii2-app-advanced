@@ -4,12 +4,13 @@
  * @author	José Lorente <jose.lorente.martin@gmail.com>
  * @version	1.0
  */
+use yii\web\View;
 use yii\helpers\Html,
     yii\helpers\Url;
 use frontend\assets\AppAsset;
 use cinghie\cookieconsent\widgets\CookieWidget;
 
-/* @var $this \yii\web\View */
+/* @var $this View */
 /* @var $content string */
 
 AppAsset::register($this);

@@ -23,12 +23,7 @@ return [
             , 'requestNumber' => 3
             , 'duration' => 120
         ]
-        , 'moderator' => 'main\modules\moderator\Module'
-        , 'event' => 'main\modules\event\Module'
-        , 'poll' => 'main\modules\poll\Module'
-        , 'question' => 'main\modules\question\Module'
-    ]
-    , 'components' => [
+    ], 'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ]
@@ -36,8 +31,8 @@ return [
             // this is the name of the session cookie used for login on the frontend
             'name' => 'advanced-frontend',
         ], 'user' => [
-            'class' => 'main\models\web\User'
-            , 'identityClass' => 'main\models\core\Account'
+            'class' => 'custom\web\User'
+            , 'identityClass' => 'frontend\models\core\Account'
             , 'loginUrl' => ['/site/login']
             , 'enableAutoLogin' => true
         ]
@@ -54,7 +49,7 @@ return [
             'errorAction' => 'site/error'
         ]
         , 'view' => [
-            'class' => 'main\models\web\View'
+            'class' => 'frontend\models\web\View'
         ]
         , 'urlManager' => [
             'enableStrictParsing' => true

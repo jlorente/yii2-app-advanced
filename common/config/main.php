@@ -5,7 +5,7 @@
  * @version	1.0
  */
 return [
-    'name' => '',
+    'name' => 'My Company',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'language' => 'es-ES',
     'aliases' => [

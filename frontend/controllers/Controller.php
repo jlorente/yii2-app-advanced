@@ -5,7 +5,7 @@
  * @version     1.0
  */
 
-namespace main\controllers;
+namespace frontend\controllers;
 
 use custom\web\Controller as BaseController;
 

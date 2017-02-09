@@ -4,15 +4,16 @@
  * @author	José Lorente <jose.lorente.martin@gmail.com>
  * @version	1.0
  */
+use yii\web\View;
 use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
 
-/* @var $this \yii\web\View */
+/* @var $this View */
 /* @var $content string */
 
-$this->beginContent('@main/views/layouts/frame.php');
+$this->beginContent('@frontend/views/layouts/frame.php');
 ?>
-<?= $this->render('@main/views/layouts/sections/header') ?>
+<?= $this->render('@frontend/views/layouts/sections/header') ?>
 <div class="container">
     <?=
     Breadcrumbs::widget([
@@ -22,6 +23,6 @@ $this->beginContent('@main/views/layouts/frame.php');
     <?= Alert::widget() ?>
     <?= $content ?>
 </div>
-<?= $this->render('@main/views/layouts/sections/footer') ?>
+<?= $this->render('@frontend/views/layouts/sections/footer') ?>
 <?php
 $this->endContent();
