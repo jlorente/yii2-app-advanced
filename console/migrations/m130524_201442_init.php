@@ -22,6 +22,14 @@ class m130524_201442_init extends StructureMigration {
                 , 'created_by' => Schema::TYPE_INTEGER
                 , 'updated_at' => Schema::TYPE_INTEGER
                 , 'updated_by' => Schema::TYPE_INTEGER
+            ], 'cor_auth' => [
+                'id' => Schema::TYPE_INTEGER . ' NOT NULL'
+                , 'access_token' => 'varbinary(255) not null'
+                , 'expires_at' => Schema::TYPE_INTEGER
+                , 'created_at' => Schema::TYPE_INTEGER
+                , 'created_by' => Schema::TYPE_INTEGER
+                , 'updated_at' => Schema::TYPE_INTEGER
+                , 'updated_by' => Schema::TYPE_INTEGER
             ], 'cor_file' => [
                 'id' => Schema::TYPE_PK,
                 'name' => Schema::TYPE_STRING,
@@ -61,6 +69,7 @@ class m130524_201442_init extends StructureMigration {
     public function getPrimaryKeys() {
         return [
             ['PK_CorResourceFile_ResourceId_FileId', 'cor_resource_file', ['resource_id', 'file_id']]
+            , ['PK_CorAuth_Id', 'cor_auth', 'id']
         ];
     }
 
@@ -71,6 +80,7 @@ class m130524_201442_init extends StructureMigration {
         return [
             ['UNIQUE_CorAccount_Username', 'cor_account', 'username', true]
             , ['UNIQUE_CorUser_Slug', 'cor_user', 'slug', true]
+            , ['INDEX_CorAuth_AccessToken', 'cor_auth', 'access_token', false]
         ];
     }
 
@@ -80,7 +90,8 @@ class m130524_201442_init extends StructureMigration {
     public function getForeignKeys() {
         return [
             ['FK_CorAccount_CorUser_AccountId', 'cor_user', 'account_id', 'cor_account', 'id', 'SET NULL', 'CASCADE']
-            , ['FK_CorFile_CorResourceFile_FileId', 'cor_resource_file', 'file_id', 'cor_file', 'id', 'CASCADE', 'CASCADE'],
+            , ['FK_CorFile_CorResourceFile_FileId', 'cor_resource_file', 'file_id', 'cor_file', 'id', 'CASCADE', 'CASCADE']
+            , ['FK_CorAuth', 'cor_auth', 'id', 'cor_account', 'id', 'CASCADE', 'CASCADE']
         ];
     }
 

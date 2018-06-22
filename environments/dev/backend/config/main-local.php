@@ -19,6 +19,11 @@ if (!YII_ENV_TEST) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
+        'newDirMode' => 0775,
+        'newFileMode' => 0664,
+        'generators' => [
+            'model' => ['class' => 'custom\gii\generators\model\Generator'],
+        ]
     ];
 }
 

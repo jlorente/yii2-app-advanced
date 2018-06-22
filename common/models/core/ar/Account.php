@@ -18,6 +18,9 @@ use yii\helpers\ArrayHelper;
 /**
  * Account model
  * 
+ * @property Auth $auth Gets the related Auth model. 
+ * @property User $user Gets the related User model. 
+ * 
  * @author José Lorente <jose.lorente.martin@gmail.com>
  */
 class Account extends base\Account implements IdentityInterface, Roleable {
@@ -186,6 +189,14 @@ class Account extends base\Account implements IdentityInterface, Roleable {
     }
 
     /**
+     * 
+     * @return AuthQuery
+     */
+    public function getAuth() {
+        return $this->hasOne(Auth::className(), ['id' => 'id']);
+    }
+
+    /**
      * @inheritdoc
      */
     public function getValidRoles() {
@@ -211,7 +222,7 @@ class AccountQuery extends ActiveQuery {
     /**
      * Adds the active filter to the query object.
      * 
-     * @return $this the query object itself
+     * @return static the query object itself
      */
     public function active() {
         $this->filterWhere(['status' => Account::STATUS_ACTIVE]);
@@ -222,10 +233,10 @@ class AccountQuery extends ActiveQuery {
      * Adds an email filter by performing a join with the user table.
      * 
      * @param string $email
-     * @return $this the query object itself
+     * @return static the query object itself
      */
     public function filterByEmail($email) {
-        return $this->innerJoin(User::tableName(), User::tableName() . 'account_id = cor_account.id')
+        return $this->innerJoin(User::tableName(), User::tableName() . '.account_id = cor_account.id')
                         ->andWhere(['email' => $email]);
     }
 

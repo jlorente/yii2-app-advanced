@@ -1,27 +1,27 @@
 <?php
 
 /**
- * @author	José Lorente <jose.lorente.martin@gmail.com>
- * @version	1.0
+ * @author      José Lorente <jose.lorente.martin@gmail.com>
+ * @version     1.0
  */
 
-namespace common\models;
+namespace api\modules\v1\models;
 
 use Yii;
-use yii\base\Model;
-use common\models\core\ar\Account;
+use custom\base\Model;
+use common\models\core\ar\Account,
+    common\models\core\ar\Auth;
 
 /**
- * Login form
- * 
+ *
  * @author José Lorente <jose.lorente.martin@gmail.com>
  */
-class LoginForm extends Model {
+class AuthForm extends Model {
 
     public $username;
     public $password;
-    public $rememberMe = true;
-    protected $_user = false;
+    public $client_id;
+    private $_account = false;
 
     /**
      * @inheritdoc
@@ -29,23 +29,23 @@ class LoginForm extends Model {
     public function rules() {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
+            [['username', 'password', 'client_id'], 'required'],
             // password is validated by validatePassword()
+            ['client_id', 'validateClientId'],
             ['password', 'validatePassword'],
         ];
     }
 
     /**
+     * Validates the client id.
      * 
+     * @param string $attribute the attribute currently being validated
+     * @param array $params the additional name-value pairs given in the rule
      */
-    public function attributeLabels() {
-        return [
-            'username' => Yii::t('account', 'Username'),
-            'password' => Yii::t('account', 'Password'),
-            'rememberMe' => Yii::t('account', 'Remember Me')
-        ];
+    public function validateClientId($attribute, $params) {
+        if ($this->$attribute !== Yii::$app->params['client_id']) {
+            $this->addError($attribute, 'Invalid client id');
+        }
     }
 
     /**
@@ -57,37 +57,37 @@ class LoginForm extends Model {
      */
     public function validatePassword($attribute, $params) {
         if (!$this->hasErrors()) {
-            $user = $this->getAccount();
-            if (!$user || !$user->validatePassword($this->password)) {
+            $account = $this->getAccount();
+            if (!$account || !$account->validatePassword($this->password)) {
                 $this->addError($attribute, 'Incorrect username or password.');
             }
         }
     }
 
     /**
-     * Logs in a user using the provided username and password.
+     * Logs in an account using the provided username and password.
      *
      * @return boolean whether the user is logged in successfully
      */
     public function login() {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getAccount(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            return Auth::authorize($this->getAccount());
         } else {
             return false;
         }
     }
 
     /**
-     * Finds user by [[username]]
+     * Finds an account by [[username]]
      *
      * @return Account|null
      */
     public function getAccount() {
-        if ($this->_user === false) {
-            $this->_user = Account::findByUsername($this->username);
+        if ($this->_account === false) {
+            $this->_account = Account::findByUsername($this->username);
         }
 
-        return $this->_user;
+        return $this->_account;
     }
 
 }

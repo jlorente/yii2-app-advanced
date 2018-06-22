@@ -8,11 +8,14 @@
 namespace common\models\core\ar;
 
 use yii\db\ActiveQuery;
+use common\exceptions\SaveException;
 use jlorente\location\db\LocationTrait;
 
 /**
  * User model
  *
+ * @property Account $account Gets the related Account model. 
+ * 
  * @author José Lorente <jose.lorente.martin@gmail.com>
  */
 class User extends base\User {

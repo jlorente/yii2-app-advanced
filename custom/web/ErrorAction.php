@@ -5,7 +5,7 @@
  * @version	1.0
  */
 
-namespace frontend\models\web;
+namespace custom\web;
 
 use Yii;
 use yii\web\ErrorAction as BaseErrorAction;

@@ -2,7 +2,6 @@
 
 /**
  * @author      José Lorente <jose.lorente.martin@gmail.com>
- * @copyright   Gabinete Jurídico y de Transportes <https://portalabogados.es>
  * @version     1.0
  */
 
@@ -15,6 +14,11 @@ use Yii;
 use yii\behaviors\SluggableBehavior;
 use common\exceptions\SaveException;
 
+/**
+ * Class to validate and create users in console applications.
+ * 
+ * @author José Lorente <jose.lorente.martin@gmail.com>
+ */
 class CreateForm extends Model {
 
     public $username;
@@ -27,12 +31,12 @@ class CreateForm extends Model {
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => User::className(), 'message' => Yii::t('signup', 'This email address has already been taken.')],
+            ['email', 'unique', 'targetClass' => User::className(), 'message' => Yii::t('user', 'This email address has already been taken.')],
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
             ['password_check', 'required'],
             ['password_check', 'string', 'min' => 6],
-            ['password_check', 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('signup', 'Passwords don\'t match')],
+            ['password_check', 'compare', 'compareAttribute' => 'password', 'message' => Yii::t('account', 'Passwords don\'t match.')],
             ['role', 'required'],
         ];
     }

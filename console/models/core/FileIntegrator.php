@@ -14,7 +14,7 @@ use jlorente\location\exceptions\SaveException;
 use common\models\core\ar\File;
 
 /**
- * @author	José Lorente <jose.lorente.martin@gmail.com>
+ * @author José Lorente <jose.lorente.martin@gmail.com>
  */
 class FileIntegrator extends Model {
 

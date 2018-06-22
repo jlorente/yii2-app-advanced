@@ -12,8 +12,8 @@ use frontend\models\SignupForm,
     frontend\models\ContactForm,
     frontend\models\ResetPasswordForm,
     frontend\models\PasswordResetRequestForm;
-use frontend\models\web\ErrorAction;
 use jlorente\roles\filters\AccessControl;
+use custom\web\ErrorAction;
 
 /**
  * Site controller
